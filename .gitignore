@@ -1,0 +1,15 @@
+# 本地状态（用户自己的配置与窗口位置，不进仓库）
+.settings.json
+.settings.json.tmp
+.compact_mode
+.win_position
+volume_menu.log
+
+# Python
+venv/
+__pycache__/
+*.py[cod]
+
+# 系统
+.DS_Store
+Thumbs.db

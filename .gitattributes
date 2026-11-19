@@ -1,0 +1,6 @@
+# Windows 批处理保持 CRLF（cmd 对 LF 兼容性不佳），shell 脚本保持 LF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.sh  text eol=lf
+*.py  text eol=lf
+*.md  text eol=lf
