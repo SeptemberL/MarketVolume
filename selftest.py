@@ -12,8 +12,8 @@
 """
 import json
 import os
+import shutil
 import sys
-import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import volume_core as vc
@@ -85,8 +85,11 @@ def main():
     check(vc.need_flash({'limit_down': 11, 'phase': 'closed'}) is False, '收盘后不告警')
 
     print('[5] 配置读写 load_settings / save_settings')
+    # 用项目目录下的临时文件夹: 某些受限环境没有可写的系统临时目录(tempfile 会直接报错)
     real = vc.SETTINGS_FILE
-    tmpdir = tempfile.mkdtemp()
+    tmpdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.selftest_tmp')
+    shutil.rmtree(tmpdir, ignore_errors=True)
+    os.makedirs(tmpdir, exist_ok=True)
     vc.SETTINGS_FILE = os.path.join(tmpdir, '.settings.json')
     try:
         check(vc.load_settings()['cycle_sec'] == vc.CYCLE_SEC_DEFAULT,
@@ -111,6 +114,7 @@ def main():
         check(isinstance(data, dict), 'load_settings 返回可 JSON 序列化的 dict')
     finally:
         vc.SETTINGS_FILE = real
+        shutil.rmtree(tmpdir, ignore_errors=True)
 
     print('[6] 成交额增减追踪 StockTracker')
     tr = vc.StockTracker()

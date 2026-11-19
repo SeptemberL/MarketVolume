@@ -4,6 +4,7 @@
 .compact_mode
 .win_position
 volume_menu.log
+.selftest_tmp/
 
 # Python
 venv/
